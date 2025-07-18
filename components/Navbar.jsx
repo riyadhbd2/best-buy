@@ -9,7 +9,7 @@ import SearchBar from "./Search";
 
 const Navbar = () => {
   const { isSeller, router } = useAppContext();
-  const user = true; // Replace with actual user state
+  const user = false; // Replace with actual user state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef(null);
 

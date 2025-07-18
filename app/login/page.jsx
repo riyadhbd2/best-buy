@@ -1,7 +1,11 @@
+"use client";
 import Navbar from "@/components/Navbar";
+import Image from "next/image";
 import Link from "next/link";
+import { signIn } from "next-auth/react"
 
 const Login = () => {
+  
   return (
     <>
       <Navbar />
@@ -30,6 +34,7 @@ const Login = () => {
                 Forgot Password
               </Link>
             </div>
+
             <button
               type="submit"
               name="action"
@@ -46,9 +51,11 @@ const Login = () => {
               </Link>
             </p>
           </form>
-          <button className="w-full flex items-center gap-2 justify-center my-3 bg-white border border-gray-500/30 py-2.5 rounded-full text-gray-800">
-            <img
+          <button onClick={()=> signIn("google", { callbackUrl: "/" })} className="w-full flex items-center gap-2 justify-center my-3 bg-white border border-gray-500/30 py-2.5 rounded-full text-gray-800">
+            <Image
               className="h-4 w-4"
+              width={16}
+              height={16}
               src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleFavicon.png"
               alt="googleFavicon"
             />

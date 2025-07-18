@@ -1,17 +1,22 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
 import { assets } from "@/assets/assets";
 import { useAppContext } from "@/context/AppContext";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { BsCartCheck } from "react-icons/bs";
 import SearchBar from "./Search";
 
 const Navbar = () => {
   const { isSeller, router } = useAppContext();
-  const user = false; // Replace with actual user state
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef(null);
+
+  const { data: session } = useSession();
+
+  const user = session?.user;
 
   // Close dropdown on outside click (mobile)
   useEffect(() => {
@@ -40,10 +45,18 @@ const Navbar = () => {
 
       {/* Center: Nav Links (Desktop only) */}
       <div className="flex items-center gap-4 lg:gap-8 max-md:hidden w-1/3">
-        <Link href="/" className="hover:text-gray-900 transition">Home</Link>
-        <Link href="/all-products" className="hover:text-gray-900 transition">Shop</Link>
-        <Link href="/" className="hover:text-gray-900 transition">About Us</Link>
-        <Link href="/" className="hover:text-gray-900 transition">Contact</Link>
+        <Link href="/" className="hover:text-gray-900 transition">
+          Home
+        </Link>
+        <Link href="/all-products" className="hover:text-gray-900 transition">
+          Shop
+        </Link>
+        <Link href="/" className="hover:text-gray-900 transition">
+          About Us
+        </Link>
+        <Link href="/" className="hover:text-gray-900 transition">
+          Contact
+        </Link>
 
         {isSeller && (
           <button
@@ -72,10 +85,11 @@ const Navbar = () => {
               <div className="relative group">
                 <button className="flex items-center gap-2 hover:text-gray-900 transition">
                   <Image
-                    src={assets.user_icon}
+                    src={user.image || assets.user_icon}
                     alt="user icon"
-                    width={20}
-                    height={20}
+                    width={26}
+                    height={26}
+                    className="rounded-full"
                   />
                 </button>
 
@@ -99,7 +113,7 @@ const Navbar = () => {
                     </li>
                     <li>
                       <button
-                        onClick={() => alert("Logging out...")}
+                        onClick={() => signOut({ callbackUrl: "/" })}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700"
                       >
                         Logout
@@ -140,10 +154,11 @@ const Navbar = () => {
                 className="flex items-center gap-2 hover:text-gray-900 transition"
               >
                 <Image
-                  src={assets.user_icon}
+                  src={user.image || assets.user_icon}
                   alt="user icon"
-                  width={20}
-                  height={20}
+                  width={26}
+                  height={26}
+                  className="rounded-full"
                 />
               </button>
 
@@ -168,10 +183,7 @@ const Navbar = () => {
                     </li>
                     <li>
                       <button
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          alert("Logging out...");
-                        }}
+                        onClick={() => signOut({ callbackUrl: "/" })}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-700"
                       >
                         Logout
